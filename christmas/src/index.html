@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="sv">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Julklappslotteri</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #f0f0f0;
+            }
+            .name {
+                text-transform: capitalize;
+            }
+            .person-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                margin: 20px 0;
+            }
+            .person-card {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: transform 0.2s;
+                text-align: center;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .person-card:hover {
+                transform: scale(1.05);
+            }
+            .modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+            }
+            .modal-content {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                min-width: 300px;
+            }
+            .history {
+                margin-top: 20px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            button {
+                background: #4caf50;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            button:hover {
+                background: #45a049;
+            }
+            input {
+                width: 100%;
+                padding: 8px;
+                margin: 10px 0;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Julklappslotteri {{year}}</h1>
+        <div class="person-list" id="personList"></div>
+
+        <div class="modal" id="keyModal">
+            <div class="modal-content">
+                <h2 id="modalTitle"></h2>
+                <input
+                    type="text"
+                    id="keyInput"
+                    placeholder="Ange din nyckel"
+                />
+                <button onclick="checkKey()">Visa min julklappspartner</button>
+                <div id="result"></div>
+                <div id="history" class="history"></div>
+            </div>
+        </div>
+
+        <script>
+            const people = '{{lottery}}';
+
+            let selectedPerson = null;
+
+            async function deriveKey(password, salt) {
+                const enc = new TextEncoder();
+                const keyMaterial = await crypto.subtle.importKey(
+                    "raw",
+                    enc.encode(password),
+                    "PBKDF2",
+                    false,
+                    ["deriveBits", "deriveKey"],
+                );
+
+                return crypto.subtle.deriveKey(
+                    {
+                        name: "PBKDF2",
+                        salt: salt,
+                        iterations: 100000,
+                        hash: "SHA-256",
+                    },
+                    keyMaterial,
+                    { name: "AES-GCM", length: 256 },
+                    true,
+                    ["encrypt", "decrypt"],
+                );
+            }
+
+            async function decrypt(encryptedData, password) {
+                try {
+                    const data = Uint8Array.from(
+                        atob(encryptedData),
+                        (c) => c.charCodeAt(0),
+                    );
+                    const salt = data.slice(0, 16);
+                    const iv = data.slice(16, 28);
+                    const encrypted = data.slice(28);
+
+                    const key = await deriveKey(password, salt);
+
+                    const decrypted = await crypto.subtle.decrypt(
+                        {
+                            name: "AES-GCM",
+                            iv: iv,
+                        },
+                        key,
+                        encrypted,
+                    );
+
+                    return new TextDecoder().decode(decrypted);
+                } catch (error) {
+                    throw new Error("Fel nyckel eller korrupt data");
+                }
+            }
+
+            // UI-funktioner
+            function showModal(person) {
+                selectedPerson = person;
+                const modal = document.getElementById("keyModal");
+                const modalTitle = document.getElementById("modalTitle");
+                const history = document.getElementById("history");
+
+                modalTitle.innerHTML = `Hej <span class="name">${person.name}</span>!`;
+                modal.style.display = "block";
+
+                if (person.recipients && person.recipients.length > 0) {
+                    history.innerHTML = "<h3>Tidigare år:</h3>" +
+                        person.recipients.filter(x => !x.encrypted).map((h) => `<p>${h.year}: <span class="name">${h.recipient}</span></p>`)
+                            .join("");
+                } else {
+                    history.innerHTML = "";
+                }
+            }
+
+            async function checkKey() {
+                if (!selectedPerson) return;
+
+                const keyInput = document.getElementById("keyInput");
+                const result = document.getElementById("result");
+                const encryptedRecipient = selectedPerson?.recipients?.find(x => x.encrypted)?.recipient 
+
+                try {
+                    const decrypted = await decrypt(
+                        encryptedRecipient,
+                        keyInput.value,
+                    );
+                    result.innerHTML = `Du ska ge julklapp till: <span class="name">${decrypted}</span>`;
+                    result.style.color = "#4CAF50";
+                } catch (error) {
+                    result.textContent = "Fel nyckel, försök igen!";
+                    result.style.color = "#f44336";
+                }
+            }
+
+            function init() {
+                const personList = document.getElementById("personList");
+                const modal = document.getElementById("keyModal");
+
+                people.forEach((person) => {
+                    const card = document.createElement("div");
+                    card.className = "person-card name";
+                    card.textContent = person.name;
+                    card.onclick = () => showModal(person);
+                    personList.appendChild(card);
+                });
+
+                window.onclick = (event) => {
+                    if (event.target === modal) {
+                        modal.style.display = "none";
+                        document.getElementById("result").textContent = "";
+                        document.getElementById("keyInput").value = "";
+                    }
+                };
+            }
+
+            window.onload = init;
+        </script>
+    </body>
+</html>
