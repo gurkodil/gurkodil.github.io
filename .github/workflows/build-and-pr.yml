@@ -1,9 +1,9 @@
 name: Build Christmas and PR
 
 on:
-  push:
-    tags:
-      - 'v*'
+  push
+    #tags:
+    #- 'v*'
 
 jobs:
   build-christmas:
