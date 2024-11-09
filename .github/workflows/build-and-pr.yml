@@ -43,19 +43,19 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
-          YEAR=$(date +'%Y')
+          TIME_IDENTIFIER=$(date +"%Y-%m-%d-%T")
 
-          git checkout -b update-html-${YEAR}
+          git checkout -b update-html-${TIME_IDENTIFIER}
 
           git add .
-          git commit -m "Update generated HTML files for year ${YEAR}"
-          git push --set-upstream origin update-html-${YEAR}
+          git commit -m "${TIME_IDENTIFIER}: Update generated HTML files"
+          git push --set-upstream origin update-html-${TIME_IDENTIFIER}
 
       - name: Create a pull request
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: main
-          head: update-html-${YEAR}
-          title: "Update lottery for ${YEAR}"
-          body: "This pull request includes updates to the generated HTML files for the year ${YEAR}."
+          branch: update-html-${TIME_IDENTIFIER}
+          title: "Update lottery for ${TIME_IDENTIFIER}"
+          body: "This pull request includes updates to the generated HTML files (${TIME_IDENTIFIER})."
