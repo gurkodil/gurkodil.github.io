@@ -39,7 +39,7 @@ jobs:
       - name: Create a pull request
         uses: peter-evans/create-pull-request@v7
         with:
-          commit-message: "Regenerate Christmas Lottery (index.html and lottery json if not exist)"
+          commit-message: "(bot) regenerate christmas page"
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: update-christmas-lottery
           title: "Update Christmas Lottery"

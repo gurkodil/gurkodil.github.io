@@ -4,14 +4,13 @@ import { execute_lottery_and_create_files } from "./generate_data.ts";
 import { parseArgs } from "jsr:@std/cli/parse-args";
 
 const flags = parseArgs(Deno.args, {
-  string: ["buildDir", "basePath"],
+    string: ["buildDir", "basePath"],
 });
 
 const { buildDir } = flags;
 
-
 if (!buildDir) {
-    console.error("Missing --buildDir arg")
+    console.error("Missing --buildDir arg");
     Deno.exit(1);
 }
 
@@ -24,7 +23,10 @@ async function build() {
 
         const htmlTemplate = await Deno.readTextFile("src/index.html");
 
-        const outputHtml = htmlTemplate.replace("'{{lottery}}'", jsonData).replace('{{year}}', String(year));
+        const outputHtml = htmlTemplate
+            .replace("'{{lottery}}'", jsonData)
+            .replace("{{last-updated}}", new Date().toISOString())
+            .replace("{{year}}", String(year));
 
         await ensureDir(buildDir!);
         const outputFile = `${buildDir}/index.html`;
