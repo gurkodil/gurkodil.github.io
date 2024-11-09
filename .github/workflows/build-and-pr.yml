@@ -38,24 +38,24 @@ jobs:
           mv dist/index.html ../dist/christmas
           cd ..
 
-      # - name: Create a new branch for changes
-      #   run: |
-      #     git config --global user.name "github-actions"
-      #     git config --global user.email "github-actions@github.com"
+      - name: Create a new branch for changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
 
-      #     YEAR=$(date +'%Y')
+          YEAR=$(date +'%Y')
 
-      #     git checkout -b update-html-${YEAR}
+          git checkout -b update-html-${YEAR}
 
-      #     git add .
-      #     git commit -m "Update generated HTML files for year ${YEAR}"
-      #     git push --set-upstream origin update-html-${YEAR}
+          git add .
+          git commit -m "Update generated HTML files for year ${YEAR}"
+          git push --set-upstream origin update-html-${YEAR}
 
-      # - name: Create a pull request
-      #   uses: peter-evans/create-pull-request@v4
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     base: main
-      #     head: update-html-${YEAR}
-      #     title: "Update lottery for ${YEAR}"
-      #     body: "This pull request includes updates to the generated HTML files for the year ${YEAR}."
+      - name: Create a pull request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
+          head: update-html-${YEAR}
+          title: "Update lottery for ${YEAR}"
+          body: "This pull request includes updates to the generated HTML files for the year ${YEAR}."
