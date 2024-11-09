@@ -1,0 +1,156 @@
+[
+    {
+        "name": "annika",
+        "recipients": [
+            {
+                "year": 2024,
+                "recipient": "z0p422cfLFr36pyedVzK8ERo4ZhFqjtMMvvC+ePwRu1nbJ6/E9vNfgAlxHNCT3s=",
+                "encrypted": true
+            },
+            {
+                "year": 2022,
+                "recipient": "magnus"
+            },
+            {
+                "year": 2020,
+                "recipient": "johan"
+            },
+            {
+                "year": 2019,
+                "recipient": "gustaf"
+            }
+        ]
+    },
+    {
+        "name": "elin",
+        "recipients": [
+            {
+                "year": 2024,
+                "recipient": "AIfF51Tke8ts+S5s3l3Jsk6WcZUb5KNLa8xg19au06AFf8nuvuRd+QBKX32Z8k/NmP0=",
+                "encrypted": true
+            },
+            {
+                "year": 2022,
+                "recipient": "olivia"
+            },
+            {
+                "year": 2020,
+                "recipient": "annika"
+            },
+            {
+                "year": 2019,
+                "recipient": "per"
+            }
+        ]
+    },
+    {
+        "name": "gustaf",
+        "recipients": [
+            {
+                "year": 2024,
+                "recipient": "j1ThuHpC4MqDYEK30ZBeQ6pIvAep540/MgtSjFw68dnO9Z5CyYzLPj8novotPOHgqtg=",
+                "encrypted": true
+            },
+            {
+                "year": 2022,
+                "recipient": "elin"
+            },
+            {
+                "year": 2020,
+                "recipient": "magnus"
+            },
+            {
+                "year": 2019,
+                "recipient": "annika"
+            }
+        ]
+    },
+    {
+        "name": "johan",
+        "recipients": [
+            {
+                "year": 2024,
+                "recipient": "Tq5KPtETxQzBo2Bb8he0sVkbzLamMMPIEiXvpsdtiHmhF6O9MH4xULySGfdNfD/C",
+                "encrypted": true
+            },
+            {
+                "year": 2022,
+                "recipient": "annika"
+            },
+            {
+                "year": 2020,
+                "recipient": "per"
+            },
+            {
+                "year": 2019,
+                "recipient": "magnus"
+            }
+        ]
+    },
+    {
+        "name": "magnus",
+        "recipients": [
+            {
+                "year": 2024,
+                "recipient": "0wa5iHAcnWUXu7UW5FV3jLmukHKqTbm8qzkNsXcmM0BrROG6W54WUdn4fksNO4QUCg==",
+                "encrypted": true
+            },
+            {
+                "year": 2022,
+                "recipient": "gustaf"
+            },
+            {
+                "year": 2020,
+                "recipient": "elin"
+            },
+            {
+                "year": 2019,
+                "recipient": "olivia"
+            }
+        ]
+    },
+    {
+        "name": "olivia",
+        "recipients": [
+            {
+                "year": 2024,
+                "recipient": "97KwGrHuFPRGIAM1i9jzyjkywb36nwc3x91wDTUWOOK0Q7aEMoJ9RIRTaOqUFi4JJt4=",
+                "encrypted": true
+            },
+            {
+                "year": 2022,
+                "recipient": "per"
+            },
+            {
+                "year": 2020,
+                "recipient": "gustaf"
+            },
+            {
+                "year": 2019,
+                "recipient": "johan"
+            }
+        ]
+    },
+    {
+        "name": "per",
+        "recipients": [
+            {
+                "year": 2024,
+                "recipient": "fmI57i+Ju7HKGcznNtKlrVJUXEOhDxjOzNXiONWQREGQwk4wF9MohrX2fhxgsslw4eE=",
+                "encrypted": true
+            },
+            {
+                "year": 2022,
+                "recipient": "johan"
+            },
+            {
+                "year": 2020,
+                "recipient": "olivia"
+            },
+            {
+                "year": 2019,
+                "recipient": "elin"
+            }
+        ]
+    }
+]
