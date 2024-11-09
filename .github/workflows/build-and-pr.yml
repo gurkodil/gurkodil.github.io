@@ -43,7 +43,7 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
 
-          TIME_IDENTIFIER=$(date +"%Y-%m-%d-%T")
+          TIME_IDENTIFIER=$(date +"%Y-%m-%d-%H-%M")
 
           git checkout -b update-html-${TIME_IDENTIFIER}
 
