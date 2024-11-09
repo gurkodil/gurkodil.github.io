@@ -1,9 +1,8 @@
 name: Build Christmas and PR
 
 on:
-  push
-    #tags:
-    #- 'v*'
+  schedule:
+    - cron:  '0 0 10 11 *'
 
 jobs:
   build-christmas:
