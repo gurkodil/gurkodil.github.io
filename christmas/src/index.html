@@ -209,7 +209,7 @@
                 });
 
                 window.addEventListener("click", (event) => {
-                    if (event.target === modal) {
+                    if (event.target.contains(modal)) {
                         modal.style.display = "none";
                         document.getElementById("result").textContent = "";
                         document.getElementById("keyInput").value = "";
