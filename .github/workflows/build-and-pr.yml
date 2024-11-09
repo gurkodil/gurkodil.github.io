@@ -8,6 +8,14 @@ on:
 jobs:
   build-christmas:
     runs-on: ubuntu-latest
+    env:
+      ANNIKA_SECRET_KEY: ${{ vars.ANNIKA_SECRET_KEY }}
+      ELIN_SECRET_KEY: ${{ vars.ELIN_SECRET_KEY }}
+      GUSTAF_SECRET_KEY: ${{ vars.GUSTAF_SECRET_KEY }}
+      JOHAN_SECRET_KEY: ${{ vars.JOHAN_SECRET_KEY }}
+      MAGNUS_SECRET_KEY: ${{ vars.MAGNUS_SECRET_KEY }}
+      OLIVIA_SECRET_KEY: ${{ vars.OLIVIA_SECRET_KEY }}
+      PER_SECRET_KEY: ${{ vars.PER_SECRET_KEY }}
 
     steps:
       - name: Checkout repository
