@@ -24,7 +24,7 @@ async function build() {
         const htmlTemplate = await Deno.readTextFile("src/index.html");
 
         const outputHtml = htmlTemplate
-            .replace("'{{lottery}}'", jsonData)
+            .replace('"{{lottery}}"', jsonData)
             .replace("{{last-updated}}", new Date().toISOString())
             .replace("{{year}}", String(year));
 

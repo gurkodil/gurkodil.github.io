@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="last-updated" content="2024-11-09T22:04:22.604Z">
+        <meta name="last-updated" content="2024-11-09T22:44:16.848Z" />
         <title>Julklappslotteri</title>
         <style>
             body {
@@ -319,7 +319,9 @@
 
                 if (person.recipients && person.recipients.length > 0) {
                     history.innerHTML = "<h3>Tidigare år:</h3>" +
-                        person.recipients.filter(x => !x.encrypted).map((h) => `<p>${h.year}: <span class="name">${h.recipient}</span></p>`)
+                        person.recipients.filter((x) => !x.encrypted).map((h) =>
+                            `<p>${h.year}: <span class="name">${h.recipient}</span></p>`
+                        )
                             .join("");
                 } else {
                     history.innerHTML = "";
@@ -331,14 +333,17 @@
 
                 const keyInput = document.getElementById("keyInput");
                 const result = document.getElementById("result");
-                const encryptedRecipient = selectedPerson?.recipients?.find(x => x.encrypted)?.recipient 
+                const encryptedRecipient = selectedPerson?.recipients?.find((x) =>
+                    x.encrypted
+                )?.recipient;
 
                 try {
                     const decrypted = await decrypt(
                         encryptedRecipient,
                         keyInput.value,
                     );
-                    result.innerHTML = `Du ska ge julklapp till: <span class="name">${decrypted}</span>`;
+                    result.innerHTML =
+                        `Du ska ge julklapp till: <span class="name">${decrypted}</span>`;
                     result.style.color = "#4CAF50";
                 } catch (error) {
                     result.textContent = "Fel nyckel, försök igen!";
@@ -358,13 +363,13 @@
                     personList.appendChild(card);
                 });
 
-                window.onclick = (event) => {
+                window.addEventListener("click", (event) => {
                     if (event.target === modal) {
                         modal.style.display = "none";
                         document.getElementById("result").textContent = "";
                         document.getElementById("keyInput").value = "";
                     }
-                };
+                });
             }
 
             window.onload = init;
