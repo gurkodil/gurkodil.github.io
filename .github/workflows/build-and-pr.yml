@@ -38,24 +38,24 @@ jobs:
           mv dist/index.html ../dist/christmas
           cd ..
 
-      - name: Create a new branch for changes
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
+      # - name: Create a new branch for changes
+        # run: |
+          # git config --global user.name "github-actions"
+          # git config --global user.email "github-actions@github.com"
 
-          TIME_IDENTIFIER=$(date +"%Y-%m-%d-%H-%M")
+          # TIME_IDENTIFIER=$(date +"%Y-%m-%d-%H-%M")
 
-          git checkout -b update-html-${TIME_IDENTIFIER}
+          # git checkout -b update-html-${TIME_IDENTIFIER}
 
-          git add .
-          git commit -m "${TIME_IDENTIFIER}: Update generated HTML files"
-          git push --set-upstream origin update-html-${TIME_IDENTIFIER}
+          # git add .
+          # git commit -m "${TIME_IDENTIFIER}: Update generated HTML files"
+          # git push --set-upstream origin update-html-${TIME_IDENTIFIER}
 
       - name: Create a pull request
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v7
         with:
+          commit-message: "${TIME_IDENTIFIER}: Regenerate Christmas Lottery"
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: main
           branch: update-html-${TIME_IDENTIFIER}
           title: "Update lottery for ${TIME_IDENTIFIER}"
           body: "This pull request includes updates to the generated HTML files (${TIME_IDENTIFIER})."
