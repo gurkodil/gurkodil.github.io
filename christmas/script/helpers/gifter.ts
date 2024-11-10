@@ -5,14 +5,15 @@ import { get_unencrypted_filename, type SecretSantaRecord } from "./utils.ts";
 
 type SecretSantaPairs = Record<string, string>;
 
-
 function toOrdered(d: SecretSantaPairs): SecretSantaPairs {
   return Object.fromEntries(
     Object.entries(d).sort(([a], [b]) => a.localeCompare(b)),
   );
 }
 
-export const generate_new_year = async (year: number = new Date().getFullYear()) => {
+export const generate_new_year = async (
+  year: number = new Date().getFullYear(),
+) => {
   const module = await import(get_unencrypted_filename(year - 1), {
     with: { type: "json" },
   });
@@ -92,4 +93,3 @@ export const generate_new_year = async (year: number = new Date().getFullYear())
 
   return getNewJson();
 };
-

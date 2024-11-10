@@ -18,7 +18,9 @@ jobs:
       
       - name: Lint
         working-directory: ./christmas
-        run: deno lint
+        run: |
+          deno lint
+          deno fmt --check
 
 
       - name: Build Christmas
