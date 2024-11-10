@@ -1,17 +1,47 @@
-# How to use
+# Christmas Gift Lottery Generator
 
-The command below will generate a new lottery if one does not exist for the
-current year. Either way, it will always regenerate a new index.html file in the
-dist folder.
+Automatically generates yearly Christmas gift assignments for family members.
+The system ensures each person gives one gift and that assignments vary each
+year.
 
-```sh
-deno run -A script/build.ts
+## Usage
+
+```bash
+deno run -A script/build.ts [options]
 ```
 
-# Dev
+### Options
 
-Run the build script when the index template changes:
+| Option              | Description                                                         |
+| ------------------- | ------------------------------------------------------------------- |
+| `--buildDir`        | Path to the build dir, if not provided no index.html will be built  |
+| `--generateLottery` | Creates new lottery files for the current year if they do not exist |
+
+### Common Commands
+
+Generate new lottery for current year:
+
+```bash
+deno run -A script/build.ts --generateLottery
+```
+
+Build webpage with existing lottery:
+
+```bash
+deno run -A script/build.ts --buildDir dist
+```
+
+Local dev with watch command:
 
 ```sh
-deno run --watch=src/index.html -A script/build.ts --buildDir ../dist/christmas/
+deno run --watch=src/index.html -A script/build.ts --buildDir dist
+```
+
+### GitHub Pages Deployment
+
+This project can be automatically deployed to GitHub Pages. Add `[skip ci]` to
+your commit message to skip deployment.
+
+```bash
+git commit -m "Update content [skip ci]"
 ```
