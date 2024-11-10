@@ -26,8 +26,10 @@ jobs:
         working-directory: ./christmas
         run: deno run -A script/santa.ts build --buildDir ../dist/christmas --json data/lottery.json
 
-      - name: Move static files
-        run: cp -r static/* dist
+      - name: Move static files and CNAME
+        run: |
+          cp -r static/* dist
+          cp CNAME dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
