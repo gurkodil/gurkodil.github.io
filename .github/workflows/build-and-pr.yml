@@ -1,4 +1,4 @@
-name: Build Christmas and PR
+name: Generate Christmas lottery and PR
 
 on:
   schedule:
@@ -28,18 +28,18 @@ jobs:
       - name: Debug Environment Variables
         run: env
 
-      - name: Run build script
+      - name: Run generation script
         run: |
           cd christmas
-          deno run -A script/build.ts --buildDir dist
+          deno run -A script/build.ts --generateLottery
           mv dist/index.html ../docs/christmas
           cd ..
 
       - name: Create a pull request
         uses: peter-evans/create-pull-request@v7
         with:
-          commit-message: "(bot) regenerate christmas page"
+          commit-message: "(bot) generate christmas lottery"
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: update-christmas-lottery
           title: "Update Christmas Lottery"
-          body: "Yep!"
+          body: ":christmas_tree::gift:"

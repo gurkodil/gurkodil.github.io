@@ -1,25 +1,31 @@
 import { ensureDir } from "https://deno.land/std@0.119.0/fs/mod.ts";
-import { get_encrypted_filename } from "./helpers/utils.ts";
+import { get_latest_lottery_file } from "./helpers/utils.ts";
 import { execute_lottery_and_create_files } from "./generate_data.ts";
 import { parseArgs } from "jsr:@std/cli/parse-args";
 
 const flags = parseArgs(Deno.args, {
-    string: ["buildDir", "basePath"],
+    string: ["buildDir"],
+    boolean: ["generateLottery"],
 });
 
-const { buildDir } = flags;
-
-if (!buildDir) {
-    console.error("Missing --buildDir arg");
-    Deno.exit(1);
-}
+const { buildDir, generateLottery = false } = flags;
 
 async function build() {
     try {
-        await execute_lottery_and_create_files();
+        if (generateLottery) {
+            await execute_lottery_and_create_files();
+        }
+
+        if (!buildDir) {
+            console.warn("Missing --buildDir arg, will not build index.html");
+            return;
+        }
 
         const year = new Date().getFullYear();
-        const jsonData = await Deno.readTextFile(get_encrypted_filename(year));
+
+        const encrypted_file = await get_latest_lottery_file();
+
+        const jsonData = await Deno.readTextFile(encrypted_file);
 
         const htmlTemplate = await Deno.readTextFile("src/index.html");
 
