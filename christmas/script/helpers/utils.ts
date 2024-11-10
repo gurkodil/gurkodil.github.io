@@ -1,9 +1,21 @@
+import { decrypt } from "./encrypt.ts";
+
 export type SecretSantaRecord = {
   name: string;
+  env_secret: string;
   recipients: {
     year: number;
     recipient: string;
     encrypted?: boolean;
+  }[];
+};
+
+export type NotSecretSantaRecord = {
+  name: string;
+  env_secret: string;
+  recipients: {
+    year: number;
+    recipient: string;
   }[];
 };
 
@@ -37,6 +49,39 @@ export const get_latest_lottery_file = async () => {
 export const write_sync_formatted_json = (file_path: string, obj: any) => {
   Deno.writeTextFileSync(file_path, JSON.stringify(obj, null, 4));
   console.log("Wrote file", file_path);
+};
+
+export const decrypt_lottery_file = async (
+  filename: string,
+): Promise<NotSecretSantaRecord[]> => {
+  const exist = await file_exist(filename);
+  if (!exist) {
+    throw new Error("File not found!");
+  }
+  const file = Deno.readTextFileSync(filename);
+
+  const santaRecords = JSON.parse(file) as unknown as SecretSantaRecord[];
+
+  if (!santaRecords || !santaRecords[0]?.name) {
+    throw new Error(`Unexpected file format: ${santaRecords}`);
+  }
+
+  return Promise.all(santaRecords.map(async (record) => {
+    for (let i = 0; i < record.recipients.length; i++) {
+      if (record.recipients[i].encrypted) {
+        const secret = Deno.env.get(record.env_secret);
+        if (!secret) {
+          throw new Error(`Missing ${record.env_secret} environment variable`);
+        }
+        record.recipients[i].recipient = await decrypt(
+          record.recipients[i].recipient,
+          secret,
+        );
+        delete record.recipients[i].encrypted;
+      }
+    }
+    return record;
+  }));
 };
 
 export const file_exist = async (filename: string) => {

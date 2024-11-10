@@ -1,6 +1,7 @@
 [
   {
     "name": "annika",
+    "env_secret": "ANNIKA_SECRET_KEY",
     "recipients": [
       {
         "year": 2024,
@@ -23,6 +24,7 @@
   },
   {
     "name": "elin",
+    "env_secret": "ELIN_SECRET_KEY",
     "recipients": [
       {
         "year": 2024,
@@ -45,6 +47,7 @@
   },
   {
     "name": "gustaf",
+    "env_secret": "GUSTAF_SECRET_KEY",
     "recipients": [
       {
         "year": 2024,
@@ -67,6 +70,7 @@
   },
   {
     "name": "johan",
+    "env_secret": "JOHAN_SECRET_KEY",
     "recipients": [
       {
         "year": 2024,
@@ -89,6 +93,7 @@
   },
   {
     "name": "magnus",
+    "env_secret": "MAGNUS_SECRET_KEY",
     "recipients": [
       {
         "year": 2024,
@@ -111,6 +116,7 @@
   },
   {
     "name": "olivia",
+    "env_secret": "OLIVIA_SECRET_KEY",
     "recipients": [
       {
         "year": 2024,
@@ -133,6 +139,7 @@
   },
   {
     "name": "per",
+    "env_secret": "PER_SECRET_KEY",
     "recipients": [
       {
         "year": 2024,

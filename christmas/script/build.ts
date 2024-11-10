@@ -1,16 +1,24 @@
 import { ensureDir } from "https://deno.land/std@0.119.0/fs/mod.ts";
-import { get_latest_lottery_file } from "./helpers/utils.ts";
+import {
+  decrypt_lottery_file,
+  get_latest_lottery_file,
+} from "./helpers/utils.ts";
 import { execute_lottery_and_create_files } from "./generate_data.ts";
 import { parseArgs } from "jsr:@std/cli/parse-args";
 
 const flags = parseArgs(Deno.args, {
-  string: ["buildDir"],
+  string: ["buildDir", "decryptFile"],
   boolean: ["generateLottery"],
 });
 
-const { buildDir, generateLottery = false } = flags;
+const { buildDir, generateLottery = false, decryptFile } = flags;
 
 async function build() {
+  if (decryptFile) {
+    const decryptedFile = await decrypt_lottery_file(decryptFile);
+    console.log(JSON.stringify(decryptedFile, null, 4));
+    return;
+  }
   try {
     if (generateLottery) {
       await execute_lottery_and_create_files();

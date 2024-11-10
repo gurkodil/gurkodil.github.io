@@ -75,6 +75,33 @@ async function encrypt(data: string, password: string): Promise<string> {
   return btoa(String.fromCharCode(...result));
 }
 
+export async function decrypt(encryptedData: string, password: string) {
+  try {
+    const data = Uint8Array.from(
+      atob(encryptedData),
+      (c) => c.charCodeAt(0),
+    );
+    const salt = data.slice(0, 16);
+    const iv = data.slice(16, 28);
+    const encrypted = data.slice(28);
+
+    const key = await deriveKey(password, salt);
+
+    const decrypted = await crypto.subtle.decrypt(
+      {
+        name: "AES-GCM",
+        iv: iv,
+      },
+      key,
+      encrypted,
+    );
+
+    return new TextDecoder().decode(decrypted);
+  } catch {
+    throw new Error("Fel nyckel eller korrupt data");
+  }
+}
+
 export const generate_encrypted = async (records: SecretSantaRecord[]) => {
   const year = new Date().getFullYear();
 

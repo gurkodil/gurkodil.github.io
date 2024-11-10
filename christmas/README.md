@@ -16,6 +16,7 @@ deno run -A script/build.ts [options]
 | ------------------- | ------------------------------------------------------------------- |
 | `--buildDir`        | Path to the build dir, if not provided no index.html will be built  |
 | `--generateLottery` | Creates new lottery files for the current year if they do not exist |
+| `--decryptFile`     | path to encrypted lottery file, prints result to stdout             |
 
 ### Common Commands
 
