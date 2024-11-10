@@ -22,7 +22,7 @@ export const getEnvVariableOrThrow = (key: string) => {
 
 // deno-lint-ignore no-explicit-any
 export const writeSyncFormattedJson = (file_path: string, obj: any) => {
-  Deno.writeTextFileSync(file_path, JSON.stringify(obj, null, 4));
+  Deno.writeTextFileSync(file_path, JSON.stringify(obj, null, 2));
   console.log("Wrote file", file_path);
 };
 
