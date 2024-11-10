@@ -30,11 +30,9 @@ jobs:
         run: env
 
       - name: Run generation script
+        working-directory: ./christmas
         run: |
-          cd christmas
           deno run -A script/build.ts --generateLottery
-          mv dist/index.html ../docs/christmas
-          cd ..
 
       - name: Create a pull request
         uses: peter-evans/create-pull-request@v7
