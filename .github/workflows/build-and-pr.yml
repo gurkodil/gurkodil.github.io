@@ -1,8 +1,9 @@
 name: Generate Christmas lottery and PR
 
 on:
-  schedule:
-    - cron:  '0 0 10 11 *'
+  push
+  # schedule:
+    # - cron:  '0 0 10 11 *'
 
 jobs:
   build-christmas:
