@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Christmas
         working-directory: ./christmas
-        run: deno run -A script/build.ts --buildDir ../dist/christmas
+        run: deno run -A script/santa.ts build --buildDir ../dist/christmas --json data/lottery.json
 
       - name: Move static files
         run: cp -r static/* dist

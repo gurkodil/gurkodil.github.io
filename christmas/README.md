@@ -7,38 +7,44 @@ year.
 ## Usage
 
 ```bash
-deno run -A script/build.ts [options]
+deno run -A script/santa.ts <decrypt|lottery|build> [options]
 ```
 
-### Options
+### Commands
 
-| Option          | Description                                                         |
-| --------------- | ------------------------------------------------------------------- |
-| `--buildDir`    | Path to the build dir, if not provided no index.html will be built  |
-| `--lottery`     | Creates new lottery files for the current year if they do not exist |
-| `--decryptFile` | Path to encrypted lottery file, prints result to stdout             |
-| `--jsonFile`    | The file to use for lottery or index.html generation                |
-| `--jsonOutFile` | Out file for new secret santa file, if unset fallback to `jsonFile` |
+#### decrypt
 
-### Common Commands
-
-Generate new lottery for current year:
+Decrypts lottery assignments
 
 ```bash
-deno run -A script/build.ts --lottery
+deno run -A script/santa.ts decrypt --json <path-to-json>
 ```
 
-Build webpage with existing lottery:
+#### lottery
+
+Generates new lottery assignments
 
 ```bash
-deno run -A script/build.ts --buildDir dist
+deno run -A script/santa.ts lottery --inputJson <input-json> --outputJson [output-json]
 ```
 
-Local dev with watch command:
+#### build
 
-```sh
-deno run --watch=src/index.html -A script/build.ts --buildDir dist
+Builds the webpage
+
+```bash
+deno run -A script/santa.ts build --buildDir <build-dir> --json <path-to-json>
 ```
+
+### Arguments
+
+| Command | Argument     | Description                         |
+| ------- | ------------ | ----------------------------------- |
+| decrypt | --json       | Path to encrypted lottery JSON file |
+| lottery | --inputJson  | Path to input json file             |
+|         | --outputJson | Where to save the generated lottery |
+| build   | --buildDir   | Directory for the built webpage     |
+|         | --json       | Path to lottery data JSON file      |
 
 ### GitHub Pages Deployment
 
