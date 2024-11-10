@@ -33,6 +33,7 @@ export const get_latest_lottery_file = async () => {
   throw new Error("No file found for this or prev year!");
 };
 
+// deno-lint-ignore no-explicit-any
 export const write_sync_formatted_json = (file_path: string, obj: any) => {
   Deno.writeTextFileSync(file_path, JSON.stringify(obj, null, 4));
   console.log("Wrote file", file_path);
