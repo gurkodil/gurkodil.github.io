@@ -26,9 +26,6 @@ jobs:
         with:
           deno-version: v2.x
 
-      - name: Debug Environment Variables
-        run: env
-
       - name: Run generation script
         working-directory: ./christmas
         run: |
