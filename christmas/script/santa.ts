@@ -1,5 +1,8 @@
 import { ensureDir } from "https://deno.land/std@0.119.0/fs/mod.ts";
-import { decryptSecretSantaFile } from "./helpers/utils.ts";
+import {
+  decryptSecretSantaFile,
+  type SecretSantaFile,
+} from "./helpers/utils.ts";
 import { parseArgs } from "jsr:@std/cli/parse-args";
 import { createYearlySecretSantaList } from "./helpers/gifter.ts";
 
@@ -67,12 +70,14 @@ async function handleBuildCommand(args: BuildArgs) {
     throw Error("Missing required arg --json");
   }
   try {
-    const jsonData = await Deno.readTextFile(json);
+    const jsonData = JSON.parse(
+      Deno.readTextFileSync(json),
+    ) as unknown as SecretSantaFile;
 
     const htmlTemplate = await Deno.readTextFile("src/index.html");
 
     const outputHtml = htmlTemplate
-      .replace('"{{lottery}}"', jsonData)
+      .replace('"{{lottery}}"', JSON.stringify(jsonData.records))
       .replace("{{last-updated}}", new Date().toISOString())
       .replace("{{year}}", String(new Date().getFullYear()));
 
