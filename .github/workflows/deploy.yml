@@ -15,18 +15,17 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      
+
       - name: Lint
         working-directory: ./christmas
         run: |
           deno lint
           deno fmt --check
 
-
       - name: Build Christmas
         working-directory: ./christmas
         run: deno run -A script/build.ts --buildDir ../dist/christmas
-      
+
       - name: Move static files
         run: cp -r static/* dist
 
