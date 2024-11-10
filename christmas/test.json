@@ -7,8 +7,12 @@
       "recipients": [
         {
           "year": 2024,
-          "recipient": "c76FY8gK0voMWmtQc8sTOivc4RGc6jhuQj7W5QYTgWP0lNtG5W8+iM9YYr/WSiXmpls=",
+          "recipient": "3xCb3/2G21x2U/NlgriI+dtiSmPdnO48EyA/MBPpYuMuVyy6LmgitKoueWN4dCba",
           "encrypted": true
+        },
+        {
+          "year": 2023,
+          "recipient": "olivia"
         },
         {
           "year": 2022,
@@ -30,8 +34,12 @@
       "recipients": [
         {
           "year": 2024,
-          "recipient": "Yldzk8JE5nVdUhWuPqegnHTywJHIGw7FpFH3NpPAmRM+is7E4m0uBiG5UenzO9UkSA==",
+          "recipient": "cT769fD7MjnxGqN7wU0Y6DwPgbLFG4GQyR9Q09sR7sVoPpNdPiaj36sZSAVno+BKhXc=",
           "encrypted": true
+        },
+        {
+          "year": 2023,
+          "recipient": "johan"
         },
         {
           "year": 2022,
@@ -53,8 +61,12 @@
       "recipients": [
         {
           "year": 2024,
-          "recipient": "gBfMgxJb6/8LTZ8eLv68IBFUNeBbjymgyHLDe3B4S/6m/Ya7Os8jDIMbd3pFRww=",
+          "recipient": "kB79Ly8slSTrBDqJCAGRBARRO4dKRmDvGB1qSazjZZOizwTUq+p7kdTaQir3ELAO5g==",
           "encrypted": true
+        },
+        {
+          "year": 2023,
+          "recipient": "per"
         },
         {
           "year": 2022,
@@ -76,8 +88,12 @@
       "recipients": [
         {
           "year": 2024,
-          "recipient": "9H4GKtxb/Ic7mb/MEtvtds/03gYrcBQsrS2SiueIOlYFX0G41tNdIfyHO34Zio0oHlQ=",
+          "recipient": "cvE1NPrW3fg/eypRDbw2JYAJD1BFYXEBpGQstPEJGXs2DIP8DVhaFvf3qoQWXtQscLw=",
           "encrypted": true
+        },
+        {
+          "year": 2023,
+          "recipient": "gustaf"
         },
         {
           "year": 2022,
@@ -99,8 +115,12 @@
       "recipients": [
         {
           "year": 2024,
-          "recipient": "f20LaMIY5Vk9bHhGriNjEmoecQI+7KFrFpZ0J2pH9F/4Bq1xOsYFwFAEC7hyZcuqYsI=",
+          "recipient": "nsBnIqu5WH8SBXQDCAm1k0tiMRObwLwk1pS6fyGN25O12gNZgQgmdYSVau08qnI=",
           "encrypted": true
+        },
+        {
+          "year": 2023,
+          "recipient": "annika"
         },
         {
           "year": 2022,
@@ -122,8 +142,12 @@
       "recipients": [
         {
           "year": 2024,
-          "recipient": "sBTAc8BBVNUTE4ArN19og/Qa3GTbUbYq1Qr8JhlMf8fNYfBY9w/xgDk46Th7KlwN",
+          "recipient": "MYG/QEWcAptPDFjNkuOGxGKxVXBXuM8RR4xhj8bKBf2c48+/eJTrFGXD/M+o/Pdunp0=",
           "encrypted": true
+        },
+        {
+          "year": 2023,
+          "recipient": "elin"
         },
         {
           "year": 2022,
@@ -145,8 +169,12 @@
       "recipients": [
         {
           "year": 2024,
-          "recipient": "G9DE8KKez3FgCEzM28WJc4q2BqmDRkdNg6sYzXOrD3hC/2D8GqgUTD9LCBYsFIAbydw=",
+          "recipient": "+gNsOcEtXjwOQ/7zuSUhqfGQrvEW1Kbin0RRcoPRg2Ane166yWYSVUWO7yIX8p9ps4c=",
           "encrypted": true
+        },
+        {
+          "year": 2023,
+          "recipient": "magnus"
         },
         {
           "year": 2022,

@@ -31,7 +31,7 @@ jobs:
       - name: Run generation script
         working-directory: ./christmas
         run: |
-          deno run -A script/build.ts --generateLottery
+          deno run -A script/build.ts --lottery
 
       - name: Create a pull request
         uses: peter-evans/create-pull-request@v7

@@ -1,72 +1,48 @@
 import { decrypt } from "./encrypt.ts";
 
+type Recipient = { year: number; recipient: string; encrypted?: boolean };
+
 export type SecretSantaRecord = {
   name: string;
   env_secret: string;
-  recipients: {
-    year: number;
-    recipient: string;
-    encrypted?: boolean;
-  }[];
+  recipients: Recipient[];
 };
 
-export type NotSecretSantaRecord = {
-  name: string;
-  env_secret: string;
-  recipients: {
-    year: number;
-    recipient: string;
-  }[];
+export type SecretSantaFile = {
+  current_year: number;
+  records: SecretSantaRecord[];
 };
 
-const cwd = Deno.cwd();
-const lotteryBase = `${cwd}/lottery-json`;
+export const getEnvVariableOrThrow = (key: string) => {
+  const value = Deno.env.get(key);
+  if (value) return value;
 
-export const get_unencrypted_filename = (
-  year: number = new Date().getFullYear(),
-) => `${lotteryBase}/data_${year}.json`;
-
-export const get_encrypted_filename = (
-  year: number = new Date().getFullYear(),
-) => `${lotteryBase}/data_encrypted_${year}.json`;
-
-export const get_latest_lottery_file = async () => {
-  const year = new Date().getFullYear();
-  const currentYearFile = get_encrypted_filename(year);
-
-  if (await file_exist(currentYearFile)) {
-    return currentYearFile;
-  }
-
-  const prevYearFile = get_encrypted_filename(year - 1);
-  if (await file_exist(currentYearFile)) {
-    return prevYearFile;
-  }
-  throw new Error("No file found for this or prev year!");
+  throw new Error(`Could not find env variable with name ${key}`);
 };
 
 // deno-lint-ignore no-explicit-any
-export const write_sync_formatted_json = (file_path: string, obj: any) => {
+export const writeSyncFormattedJson = (file_path: string, obj: any) => {
   Deno.writeTextFileSync(file_path, JSON.stringify(obj, null, 4));
   console.log("Wrote file", file_path);
 };
 
-export const decrypt_lottery_file = async (
-  filename: string,
-): Promise<NotSecretSantaRecord[]> => {
-  const exist = await file_exist(filename);
-  if (!exist) {
-    throw new Error("File not found!");
-  }
+export const getSecretSantaFile = (filename: string): SecretSantaFile => {
   const file = Deno.readTextFileSync(filename);
 
-  const santaRecords = JSON.parse(file) as unknown as SecretSantaRecord[];
+  const santaFile = JSON.parse(file) as unknown as SecretSantaFile;
 
-  if (!santaRecords || !santaRecords[0]?.name) {
-    throw new Error(`Unexpected file format: ${santaRecords}`);
+  if (!santaFile || !santaFile.current_year) {
+    throw new Error(`Unexpected file format: ${santaFile}`);
   }
+  return santaFile;
+};
 
-  return Promise.all(santaRecords.map(async (record) => {
+export const decryptSecretSantaFile = async (
+  filename: string,
+): Promise<SecretSantaFile> => {
+  const santaFile = getSecretSantaFile(filename);
+
+  const records = await Promise.all(santaFile.records.map(async (record) => {
     for (let i = 0; i < record.recipients.length; i++) {
       if (record.recipients[i].encrypted) {
         const secret = Deno.env.get(record.env_secret);
@@ -82,16 +58,6 @@ export const decrypt_lottery_file = async (
     }
     return record;
   }));
-};
 
-export const file_exist = async (filename: string) => {
-  try {
-    await Deno.lstat(filename);
-    return true;
-  } catch (err) {
-    if (!(err instanceof Deno.errors.NotFound)) {
-      throw err;
-    }
-    return false;
-  }
+  return { ...santaFile, records };
 };

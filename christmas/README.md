@@ -12,18 +12,20 @@ deno run -A script/build.ts [options]
 
 ### Options
 
-| Option              | Description                                                         |
-| ------------------- | ------------------------------------------------------------------- |
-| `--buildDir`        | Path to the build dir, if not provided no index.html will be built  |
-| `--generateLottery` | Creates new lottery files for the current year if they do not exist |
-| `--decryptFile`     | path to encrypted lottery file, prints result to stdout             |
+| Option          | Description                                                         |
+| --------------- | ------------------------------------------------------------------- |
+| `--buildDir`    | Path to the build dir, if not provided no index.html will be built  |
+| `--lottery`     | Creates new lottery files for the current year if they do not exist |
+| `--decryptFile` | Path to encrypted lottery file, prints result to stdout             |
+| `--jsonFile`    | The file to use for lottery or index.html generation                |
+| `--jsonOutFile` | Out file for new secret santa file, if unset fallback to `jsonFile` |
 
 ### Common Commands
 
 Generate new lottery for current year:
 
 ```bash
-deno run -A script/build.ts --generateLottery
+deno run -A script/build.ts --lottery
 ```
 
 Build webpage with existing lottery:

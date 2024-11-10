@@ -1,29 +1,5 @@
 #!/usr/bin/env deno run
 
-import type { SecretSantaRecord } from "../helpers/utils.ts";
-
-const genSecrets = () =>
-  [
-    "annika",
-    "elin",
-    "gustaf",
-    "johan",
-    "magnus",
-    "olivia",
-    "per",
-  ].map((name) => {
-    const env_var_name = `${name.toUpperCase()}_SECRET_KEY`;
-    const secretKey = Deno.env.get(env_var_name);
-    if (!secretKey) {
-      console.log('Missing "secret"!', env_var_name);
-      Deno.exit(1);
-    }
-    return {
-      name,
-      secretKey,
-    };
-  });
-
 async function deriveKey(
   password: string,
   salt: Uint8Array,
@@ -51,7 +27,7 @@ async function deriveKey(
   );
 }
 
-async function encrypt(data: string, password: string): Promise<string> {
+export async function encrypt(data: string, password: string): Promise<string> {
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const iv = crypto.getRandomValues(new Uint8Array(12));
   const key = await deriveKey(password, salt);
@@ -101,26 +77,3 @@ export async function decrypt(encryptedData: string, password: string) {
     throw new Error("Fel nyckel eller korrupt data");
   }
 }
-
-export const generate_encrypted = async (records: SecretSantaRecord[]) => {
-  const year = new Date().getFullYear();
-
-  const newRecord = await Promise.all(records.map(async (record) => {
-    for (let i = 0; i < record.recipients.length; i++) {
-      const recipient = record.recipients[i];
-      if (recipient.year === year) {
-        const data = await encrypt(
-          recipient.recipient,
-          genSecrets().find((x) => x.name === record.name)!.secretKey,
-        );
-        record.recipients[i] = {
-          ...recipient,
-          encrypted: true,
-          recipient: data,
-        };
-      }
-    }
-    return record;
-  }));
-  return newRecord;
-};

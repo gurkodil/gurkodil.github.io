@@ -1,27 +1,37 @@
 import { ensureDir } from "https://deno.land/std@0.119.0/fs/mod.ts";
-import {
-  decrypt_lottery_file,
-  get_latest_lottery_file,
-} from "./helpers/utils.ts";
-import { execute_lottery_and_create_files } from "./generate_data.ts";
+import { decryptSecretSantaFile } from "./helpers/utils.ts";
 import { parseArgs } from "jsr:@std/cli/parse-args";
+import { createYearlySecretSantaList } from "./helpers/gifter.ts";
 
 const flags = parseArgs(Deno.args, {
-  string: ["buildDir", "decryptFile"],
-  boolean: ["generateLottery"],
+  string: ["buildDir", "jsonFile", "decryptFile", "jsonOutFile"],
+  boolean: ["lottery"],
 });
 
-const { buildDir, generateLottery = false, decryptFile } = flags;
+const {
+  buildDir,
+  lottery = false,
+  decryptFile,
+  jsonFile,
+  jsonOutFile,
+} = flags;
 
 async function build() {
   if (decryptFile) {
-    const decryptedFile = await decrypt_lottery_file(decryptFile);
+    const decryptedFile = await decryptSecretSantaFile(decryptFile);
     console.log(JSON.stringify(decryptedFile, null, 4));
     return;
   }
+  if (!jsonFile) {
+    console.log("Missing --jsonFile");
+    return;
+  }
   try {
-    if (generateLottery) {
-      await execute_lottery_and_create_files();
+    if (lottery) {
+      await createYearlySecretSantaList(
+        jsonFile,
+        jsonOutFile ?? jsonFile,
+      );
     }
 
     if (!buildDir) {
@@ -29,18 +39,14 @@ async function build() {
       return;
     }
 
-    const year = new Date().getFullYear();
-
-    const encrypted_file = await get_latest_lottery_file();
-
-    const jsonData = await Deno.readTextFile(encrypted_file);
+    const jsonData = await Deno.readTextFile(jsonFile);
 
     const htmlTemplate = await Deno.readTextFile("src/index.html");
 
     const outputHtml = htmlTemplate
       .replace('"{{lottery}}"', jsonData)
       .replace("{{last-updated}}", new Date().toISOString())
-      .replace("{{year}}", String(year));
+      .replace("{{year}}", String(new Date().getFullYear()));
 
     await ensureDir(buildDir!);
     const outputFile = `${buildDir}/index.html`;

@@ -1,7 +1,14 @@
 #!/usr/bin/env deno run
 
 import { shuffle } from "https://deno.land/x/collections@v0.8.0/common.ts";
-import { get_unencrypted_filename, type SecretSantaRecord } from "./utils.ts";
+import {
+  decryptSecretSantaFile,
+  getEnvVariableOrThrow,
+  type SecretSantaFile,
+  type SecretSantaRecord,
+  writeSyncFormattedJson,
+} from "./utils.ts";
+import { encrypt } from "./encrypt.ts";
 
 type SecretSantaPairs = Record<string, string>;
 
@@ -11,30 +18,33 @@ function toOrdered(d: SecretSantaPairs): SecretSantaPairs {
   );
 }
 
-export const generate_new_year = async (
-  year: number = new Date().getFullYear(),
-) => {
-  const module = await import(get_unencrypted_filename(year - 1), {
-    with: { type: "json" },
+function groupByYear(
+  records: SecretSantaRecord[],
+): { [year: number]: { [name: string]: string } } {
+  const result: { [year: number]: { [name: string]: string } } = {};
+
+  records.forEach((record) => {
+    record.recipients.forEach(({ year, recipient }) => {
+      if (!result[year]) {
+        result[year] = {};
+      }
+      result[year][record.name] = recipient;
+    });
   });
-  const previousRecords = module.default as SecretSantaRecord[];
 
-  const previous = [
-    ...previousRecords.reduce((acc, curr) => {
-      curr.recipients.forEach((recipient) => {
-        const year = recipient.year;
-        if (!acc.has(year)) {
-          acc.set(year, {});
-        }
-        acc.get(year)![curr.name.toLowerCase()] = recipient.recipient
-          .toLocaleLowerCase();
-      });
+  return result;
+}
 
-      return acc;
-    }, new Map<number, SecretSantaPairs>()).values(),
-  ];
+const generateUpdatedYearlySantaPairs = async (
+  prevFile: SecretSantaFile,
+): Promise<SecretSantaFile> => {
+  const year = new Date().getFullYear();
+  // should be an easier way, why am i grouping and then throwing it away?
+  const pairGroupedByYear = Object.values(groupByYear(prevFile.records));
 
-  function pairup(people: string[]): SecretSantaPairs {
+  console.log("PairGroupedByYear", prevFile);
+
+  function pairUp(people: string[]): SecretSantaPairs {
     shuffle(people);
     const partners = [...people.slice(1), people[0]];
     return Object.fromEntries(people.map((person, i) => [person, partners[i]]));
@@ -55,41 +65,58 @@ export const generate_new_year = async (
     return true;
   }
 
-  function getNewPair(): SecretSantaPairs | null {
+  function getNewPair(): SecretSantaPairs {
     for (let i = 0; i < 1000; i++) {
-      const newPair = toOrdered(pairup(Object.keys(previous[0])));
-      if (hasPreviousPair(newPair, previous)) {
+      const newPair = toOrdered(pairUp(Object.keys(pairGroupedByYear[0])));
+      if (hasPreviousPair(newPair, pairGroupedByYear)) {
         return newPair;
       }
     }
-    console.log("Not found :/");
-    return null;
+    throw new Error("Failed to generate new santa pairs!");
   }
 
-  const getNewJson = () => {
+  const getNewJson = async () => {
     const newPairs = getNewPair();
     const newRecords: SecretSantaRecord[] = [];
-    if (newPairs === null) {
-      return;
-    }
 
     for (const [name, value] of Object.entries(newPairs)) {
-      const record = previousRecords.find((record) =>
+      const record = prevFile.records.find((record) =>
         record.name.toLowerCase() === name.toLowerCase()
       );
       if (!record) {
-        console.log("ERROR!!!!!!!!!!!!!!!");
-        return;
+        throw new Error(`Unexpected error! Could not find ${name}`);
       }
+
+      const secret = getEnvVariableOrThrow(record.env_secret);
+      const encryptedRecipient = await encrypt(value, secret);
 
       newRecords.push({
         ...record,
-        recipients: [{ year: new Date().getFullYear(), recipient: value }]
-          .concat(...record.recipients),
+        recipients: [
+          { year, recipient: encryptedRecipient, encrypted: true },
+          ...record.recipients,
+        ],
       });
     }
     return newRecords;
   };
 
-  return getNewJson();
+  return { current_year: year, records: await getNewJson() };
+};
+
+export const createYearlySecretSantaList = async (
+  previousListFileName: string,
+  outFile: string,
+) => {
+  const file = await decryptSecretSantaFile(previousListFileName);
+  const year = new Date().getFullYear();
+
+  if (file.current_year === year) {
+    console.warn("This year has already been generated!");
+    return;
+  }
+
+  const newFile = await generateUpdatedYearlySantaPairs(file);
+
+  writeSyncFormattedJson(outFile, newFile);
 };
