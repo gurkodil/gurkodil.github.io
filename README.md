@@ -2,6 +2,6 @@
 
 ## Install commit hook
 
-```bash
+```sh
 deno task hook install
 ```
