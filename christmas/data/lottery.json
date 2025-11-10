@@ -1,14 +1,18 @@
 {
-  "current_year": 2024,
+  "current_year": 2025,
   "records": [
     {
       "name": "annika",
       "env_secret": "ANNIKA_SECRET_KEY",
       "recipients": [
         {
-          "year": 2024,
-          "recipient": "c76FY8gK0voMWmtQc8sTOivc4RGc6jhuQj7W5QYTgWP0lNtG5W8+iM9YYr/WSiXmpls=",
+          "year": 2025,
+          "recipient": "80YeWG0bP39WlbJzEYhVqmxzt/S5MdjCRWs+PSVCPB1pzyO60ccp84zAPL2GBAff",
           "encrypted": true
+        },
+        {
+          "year": 2024,
+          "recipient": "olivia"
         },
         {
           "year": 2022,
@@ -29,9 +33,13 @@
       "env_secret": "ELIN_SECRET_KEY",
       "recipients": [
         {
-          "year": 2024,
-          "recipient": "Yldzk8JE5nVdUhWuPqegnHTywJHIGw7FpFH3NpPAmRM+is7E4m0uBiG5UenzO9UkSA==",
+          "year": 2025,
+          "recipient": "0VzYIfXkcWEDN53EMZ+f5rODwNOMqtsGgXX2vW82/geHob8cruaCcGR0GxRKFV302Eg=",
           "encrypted": true
+        },
+        {
+          "year": 2024,
+          "recipient": "johan"
         },
         {
           "year": 2022,
@@ -52,9 +60,13 @@
       "env_secret": "GUSTAF_SECRET_KEY",
       "recipients": [
         {
-          "year": 2024,
-          "recipient": "gBfMgxJb6/8LTZ8eLv68IBFUNeBbjymgyHLDe3B4S/6m/Ya7Os8jDIMbd3pFRww=",
+          "year": 2025,
+          "recipient": "VU6cdyPAXAPyeqK1blKboq0Z/jjpLIrvxgGTngIM+Tt7g+GujmPF+qy7JMDRxKK1CQ==",
           "encrypted": true
+        },
+        {
+          "year": 2024,
+          "recipient": "per"
         },
         {
           "year": 2022,
@@ -75,9 +87,13 @@
       "env_secret": "JOHAN_SECRET_KEY",
       "recipients": [
         {
-          "year": 2024,
-          "recipient": "9H4GKtxb/Ic7mb/MEtvtds/03gYrcBQsrS2SiueIOlYFX0G41tNdIfyHO34Zio0oHlQ=",
+          "year": 2025,
+          "recipient": "ft7vQ1fKsQ+tylXjSe/diyUQ+3BSsljq4ectD1jB8EJJ8dpZudlP9yuVm9kXPzETfHg=",
           "encrypted": true
+        },
+        {
+          "year": 2024,
+          "recipient": "gustaf"
         },
         {
           "year": 2022,
@@ -98,9 +114,13 @@
       "env_secret": "MAGNUS_SECRET_KEY",
       "recipients": [
         {
-          "year": 2024,
-          "recipient": "f20LaMIY5Vk9bHhGriNjEmoecQI+7KFrFpZ0J2pH9F/4Bq1xOsYFwFAEC7hyZcuqYsI=",
+          "year": 2025,
+          "recipient": "RKrookcWBPQfr+NB2R4y5utvrA7nDq697e63/GDngVG0bg+XKiDPOgN6FOV/bN8=",
           "encrypted": true
+        },
+        {
+          "year": 2024,
+          "recipient": "annika"
         },
         {
           "year": 2022,
@@ -121,9 +141,13 @@
       "env_secret": "OLIVIA_SECRET_KEY",
       "recipients": [
         {
-          "year": 2024,
-          "recipient": "sBTAc8BBVNUTE4ArN19og/Qa3GTbUbYq1Qr8JhlMf8fNYfBY9w/xgDk46Th7KlwN",
+          "year": 2025,
+          "recipient": "xMY9Z8HnhQ8DzrA62UbTza3i+hnimiN3KoxVhTBbT/64EShOmJdM84vV2SsnmL5kA6U=",
           "encrypted": true
+        },
+        {
+          "year": 2024,
+          "recipient": "elin"
         },
         {
           "year": 2022,
@@ -144,9 +168,13 @@
       "env_secret": "PER_SECRET_KEY",
       "recipients": [
         {
-          "year": 2024,
-          "recipient": "G9DE8KKez3FgCEzM28WJc4q2BqmDRkdNg6sYzXOrD3hC/2D8GqgUTD9LCBYsFIAbydw=",
+          "year": 2025,
+          "recipient": "PAe1hTM71LrkXnU4wl/BzB8LT5/qx0b0f0EFMyYFhHNQ0NazXQfu+ioeva/4zUXoYiI=",
           "encrypted": true
+        },
+        {
+          "year": 2024,
+          "recipient": "magnus"
         },
         {
           "year": 2022,
