@@ -79,7 +79,7 @@ async function handleBuildCommand(args: BuildArgs) {
     const outputHtml = htmlTemplate
       .replace('"{{lottery}}"', JSON.stringify(jsonData.records))
       .replace("{{last-updated}}", new Date().toISOString())
-      .replace("{{year}}", String(new Date().getFullYear()));
+      .replace("{{ year }}", String(new Date().getFullYear()));
 
     await ensureDir(buildDir!);
     const outputJson = `${buildDir}/index.html`;
