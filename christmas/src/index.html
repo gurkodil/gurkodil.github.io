@@ -224,6 +224,23 @@
         personList.appendChild(card);
       });
 
+      const params = new URLSearchParams(window.location.search);
+      const name = params.get("name");
+      const key = params.get("key");
+
+      if (name) {
+        const person = people.find((p) =>
+          p.name.toLowerCase() === name.toLowerCase()
+        );
+        if (person) {
+          showModal(person);
+          if (key) {
+            document.getElementById("keyInput").value = key;
+            checkKey();
+          }
+        }
+      }
+
       window.addEventListener("click", (event) => {
         if (event.target.contains(modal)) {
           closeModal();

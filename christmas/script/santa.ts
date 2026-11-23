@@ -9,11 +9,13 @@ import { createYearlySecretSantaList } from "./helpers/gifter.ts";
 type DecryptArgs = { json: string };
 type LotteryArgs = { inputJson: string; outputJson: string };
 type BuildArgs = { buildDir: string; json: string };
+type LinksArgs = { inputJson: string; baseUrl: string };
 
 type CommandArgs = {
   decrypt: DecryptArgs;
   lottery: LotteryArgs;
   build: BuildArgs;
+  links: LinksArgs;
 };
 
 async function run() {
@@ -21,7 +23,7 @@ async function run() {
 
   if (args._.length === 0) {
     console.log(
-      "Usage: deno run build.ts <decrypt|lottery|build> [OPTIONS]",
+      "Usage: deno run build.ts <decrypt|lottery|build|links> [OPTIONS]",
     );
     Deno.exit(1);
   }
@@ -39,6 +41,10 @@ async function run() {
     }
     case "build": {
       handleBuildCommand(args as unknown as BuildArgs);
+      break;
+    }
+    case "links": {
+      handleLinksCommand(args as unknown as LinksArgs);
       break;
     }
     default: {
@@ -88,6 +94,25 @@ async function handleBuildCommand(args: BuildArgs) {
     console.log(`Built into ${outputJson}.`);
   } catch (error) {
     console.error("Failed", error);
+  }
+}
+
+function handleLinksCommand(args: LinksArgs) {
+  const baseUrl = args.baseUrl ?? "https://gustafwennerstrom.com/christmas/";
+  const jsonData = JSON.parse(
+    Deno.readTextFileSync(args.inputJson),
+  ) as unknown as SecretSantaFile;
+
+  for (const record of jsonData.records) {
+    const key = Deno.env.get(record.env_secret);
+    if (!key) {
+      console.warn(`Missing ${record.env_secret} - skipping ${record.name}`);
+      continue;
+    }
+    const url = `${baseUrl}?name=${encodeURIComponent(record.name)}&key=${
+      encodeURIComponent(key)
+    }`;
+    console.log(`${record.name}: ${url}`);
   }
 }
 
