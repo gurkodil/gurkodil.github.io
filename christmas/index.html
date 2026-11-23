@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="last-updated" content="2026-11-23T20:30:32.149Z" />
+    <meta name="last-updated" content="2026-11-23T20:34:33.427Z" />
     <title>Julklappslotteri</title>
     <style>
     body {
@@ -223,6 +223,23 @@
         card.onclick = () => showModal(person);
         personList.appendChild(card);
       });
+
+      const params = new URLSearchParams(window.location.search);
+      const name = params.get("name");
+      const key = params.get("key");
+
+      if (name) {
+        const person = people.find((p) =>
+          p.name.toLowerCase() === name.toLowerCase()
+        );
+        if (person) {
+          showModal(person);
+          if (key) {
+            document.getElementById("keyInput").value = key;
+            checkKey();
+          }
+        }
+      }
 
       window.addEventListener("click", (event) => {
         if (event.target.contains(modal)) {
