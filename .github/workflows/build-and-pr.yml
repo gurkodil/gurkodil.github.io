@@ -30,6 +30,7 @@ jobs:
         working-directory: ./christmas
         run: |
           deno run -A script/santa.ts lottery --inputJson data/lottery.json
+          deno fmt
 
       - name: Create a pull request
         uses: peter-evans/create-pull-request@v7
