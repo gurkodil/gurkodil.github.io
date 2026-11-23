@@ -1,6 +1,6 @@
 #!/usr/bin/env deno run
 
-import { shuffle } from "https://deno.land/x/collections@v0.8.0/common.ts";
+import { shuffle } from "@std/collections";
 import {
   decryptSecretSantaFile,
   getEnvVariableOrThrow,

@@ -1,9 +1,9 @@
-import { ensureDir } from "https://deno.land/std@0.119.0/fs/mod.ts";
+import { ensureDir } from "@std/fs";
 import {
   decryptSecretSantaFile,
   type SecretSantaFile,
 } from "./helpers/utils.ts";
-import { parseArgs } from "jsr:@std/cli/parse-args";
+import { parseArgs } from "@std/cli/parse-args";
 import { createYearlySecretSantaList } from "./helpers/gifter.ts";
 
 type DecryptArgs = { json: string };

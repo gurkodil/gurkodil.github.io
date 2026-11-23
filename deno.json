@@ -4,6 +4,9 @@
     "fix": "deno fmt && deno lint ."
   },
   "imports": {
-    "@std/assert": "jsr:@std/assert@1"
+    "@std/assert": "jsr:@std/assert@1",
+    "@std/cli": "jsr:@std/cli@^1",
+    "@std/collections": "jsr:@std/collections@^1",
+    "@std/fs": "jsr:@std/fs@^1"
   }
 }
