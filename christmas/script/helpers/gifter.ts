@@ -1,6 +1,5 @@
 #!/usr/bin/env deno run
 
-import { shuffle } from "@std/collections";
 import {
   decryptSecretSantaFile,
   getEnvVariableOrThrow,
@@ -11,6 +10,13 @@ import {
 import { encrypt } from "./encrypt.ts";
 
 type SecretSantaPairs = Record<string, string>;
+
+function shuffle<T>(array: T[]): void {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 
 function toOrdered(d: SecretSantaPairs): SecretSantaPairs {
   return Object.fromEntries(
